@@ -74,8 +74,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -60228612, guid: 54b4332555b398344aa2c185145fda58, type: 3}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: -1897244762, guid: 7e63586907eece64096d8b805641934a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -98,9 +98,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a66c79e475766d47bc9363fe69b266d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isConsumed: 0
+  enemy: {fileID: 4267278513202587952, guid: fff49789429617a4d997df42b3292aef, type: 3}
+  highLightSprite: {fileID: -1083676571, guid: 7e63586907eece64096d8b805641934a, type: 3}
+  consumedSprite: {fileID: -712795180, guid: 7e63586907eece64096d8b805641934a, type: 3}
+  enemyTileSprite: {fileID: 1988573028, guid: 7e63586907eece64096d8b805641934a, type: 3}
   valDice: 0
-  colors: []
-  highLight: {fileID: -267899391, guid: f6c98c62823c223489dc5e7676a59161, type: 3}
 --- !u!61 &-4373421767277046635
 BoxCollider2D:
   m_ObjectHideFlags: 0

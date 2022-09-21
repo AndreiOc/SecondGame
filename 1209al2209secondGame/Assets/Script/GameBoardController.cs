@@ -9,11 +9,14 @@ public class GameBoardController : MonoBehaviour
     /// Lista contenente la posizione di tutte le mie tiles
     /// </summary>
     //! Componenti per la generazioni delle tiles
-    private List<Tile>tiles;
+    public List<Tile>tiles;
     private int TILE_COUNT_X = 10;
     private int TILE_COUNT_Y = 10;
+    private int avaibleTiles;
     [SerializeField] Tile [] diceTile;
     public GameObject player;
+    [SerializeField] EnemyController enemy;
+    [SerializeField]public int[,] _valDiceArray = new int[10,10];
     private void Awake()
     {
         GenerateAllTiles(TILE_COUNT_X,TILE_COUNT_Y);    
@@ -22,29 +25,18 @@ public class GameBoardController : MonoBehaviour
         {
             if(item.ValDice == 1)
             {
-                positionPlayer = new Vector2(item.X,item.Y);
+                positionPlayer = new Vector2(item.X,item.Y + 0.8f);
                 Instantiate(player,positionPlayer,Quaternion.identity);
                 break;
             }
         }
     }
-    void Start()
-    {    }
-
-    
-
     private void GenerateAllTiles(int tileCountX, int tileCountY)
     {
-
         tiles = new List<Tile>();
         for (int x = 0; x < TILE_COUNT_X; x++)
-        {
             for (int y = 0; y < TILE_COUNT_Y; y++)
-            {
-                tiles.Add(GenerateSingleTile(x, y));
-                
-            }
-        }
+                tiles.Add(GenerateSingleTile(x, y));           
     }
 
 
@@ -53,28 +45,28 @@ public class GameBoardController : MonoBehaviour
 
         Tile tileObject;
         int valTile = Random.Range(0,100);
-        if(valTile <= 40)
+        if(valTile <= 25)
         {
             tileObject = Instantiate(diceTile[0],new Vector3(x,y,0),Quaternion.identity);
             tileObject.ValDice = 1;
         }
-        else if(valTile > 40 && valTile <= 67)
+        else if(valTile > 25 && valTile <= 47)
         {
             tileObject = Instantiate(diceTile[1],new Vector3(x,y,0),Quaternion.identity);
             tileObject.ValDice = 2;
 
         }
-        else if(valTile > 67 && valTile <= 78)
+        else if(valTile > 47 && valTile <= 66)
         {
             tileObject = Instantiate(diceTile[2],new Vector3(x,y,0),Quaternion.identity);
             tileObject.ValDice = 3;
         }
-        else if(valTile>78 && valTile <= 88)
+        else if(valTile>66 && valTile <= 82)
         {
             tileObject = Instantiate(diceTile[3],new Vector3(x,y,0),Quaternion.identity);
             tileObject.ValDice = 4;
         }
-        else if(valTile>88 && valTile <= 97)
+        else if(valTile>82 && valTile <= 93)
         {
             tileObject = Instantiate(diceTile[4],new Vector3(x,y,0),Quaternion.identity);
             tileObject.ValDice = 5;
@@ -87,6 +79,7 @@ public class GameBoardController : MonoBehaviour
 
         tileObject.X = x;
         tileObject.Y = y;
+        _valDiceArray[x,y] = tileObject.ValDice;
         tileObject.transform.parent = transform;
         tileObject.transform.position = new Vector2(x, y);
 
@@ -100,8 +93,10 @@ public class GameBoardController : MonoBehaviour
     {
         foreach (var item in tiles)
         {
-            if(item.ValDice == valDice){
-                item.HighLight();
+            if(item.ValDice == valDice)
+            {
+                if(item.transform.tag != "Untagged" && !item.isConsumed)
+                    item.HighLight();
             }
         }
     }
@@ -112,7 +107,44 @@ public class GameBoardController : MonoBehaviour
     {
         foreach (var item in tiles)
         {
-            item.RemoveHighLight();
+            if(item.transform.tag != "Untagged" && !item.isConsumed)
+            {
+                item.RemoveHighLight();
+            }
         }
+    }
+
+
+    /// <summary>
+    /// Quando rimuovo un oggetto dalla mia gameboard 
+    /// cambio la tag in None
+    /// consumo la tile 
+    /// rimuovo dalla lista
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    public void RemoveFromList(int x, int y)
+    {
+        _valDiceArray[x,y] = 0 ;
+        tiles.Find(val => (val.X == x && val.Y == y)).ConsumedTile();
+        //tiles.Remove(tiles.Find(val => (val.X == x && val.Y == y)));
+        Debug.Log("list count : " + tiles.Count);   
+  
+    }
+    /// <summary>
+    /// Spawn un nemico casualmente sulla plancia di gioco
+    /// </summary>
+    /// <param name="currentDice"></param>
+    public void SpawnEnemy(int currentDice)
+    {
+        Tile tile;
+        do
+        {
+            tile = tiles[Random.Range(0,tiles.Count)];
+            tile.transform.tag = "Untagged";
+        }while(tile.isConsumed);
+        tile.ConsumedTile(true);
+        Instantiate(enemy,new Vector2(tile.X,tile.Y + 0.8f),Quaternion.identity);
+        Debug.Log("list count : " + tiles.Count);   
     }
 }

@@ -4,12 +4,12 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Player_1
-  - Player_0
-  - Player_2
-  - Player_3
   - HighLight
   - None
+  - Board
+  - Dice
+  - Enemy
+  - EnemyTile
   layers:
   - Default
   - TransparentFX

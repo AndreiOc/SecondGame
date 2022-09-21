@@ -6,6 +6,6 @@ public class DiceSixScript : Tile
 {
     public override void GetBuffOrDebuff()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("TODO");
     }
 }
