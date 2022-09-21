@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DiceForBattle : MonoBehaviour
+public class DiceForBattle : MonoBehaviour, Searchable
 {
     GameBoardController _gameboard;
     PlayerController _playerController;
@@ -18,7 +18,7 @@ public class DiceForBattle : MonoBehaviour
         spriteRenderer.sprite = neutralDiceFaces[0];//1
         spriteRenderer.enabled = false;
         _player = GameObject.FindGameObjectWithTag("Player");
-        _gameboard = GameObject.FindGameObjectWithTag("Board").GetComponent<GameBoardController>();
+        _gameboard = GameObject.Find("GameBoard").GetComponent<GameBoardController>();
       
     }
     private void Update()
@@ -165,4 +165,10 @@ public class DiceForBattle : MonoBehaviour
         }
     }
 
+    public void SearchObject()
+    {
+        _gameboard = GameObject.Find("GameBoard").GetComponent<GameBoardController>();
+        Debug.Log(_gameboard);
+
+    }
 }

@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2518463416767146573}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.45, z: 0}
+  m_LocalPosition: {x: 30, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -99,7 +99,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9f22f09e5b584c4ca9ad8d48fcc00e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  diceForBattle: {fileID: 0}
 --- !u!50 &8466735807466276064
 Rigidbody2D:
   serializedVersion: 4

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DiceController : MonoBehaviour
+public class DiceController : MonoBehaviour, Searchable
 {
     [SerializeField] Sprite [] diceFaces;
     GameObject _playeContoller;
@@ -25,7 +25,9 @@ public class DiceController : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();            
         spriteRenderer.sprite = diceFaces[0];//1
         _playeContoller = GameObject.FindGameObjectWithTag("Player");
-        _gameboard = GameObject.FindGameObjectWithTag("Board").GetComponent<GameBoardController>();
+        _gameboard = GameObject.Find("GameBoard").GetComponent<GameBoardController>();
+
+
     }
     // Update is called once per frame
     private void Update()
@@ -105,5 +107,11 @@ public class DiceController : MonoBehaviour
         }
         Debug.Log("Valore non prensente");
         return false;
+    }
+
+    public void SearchObject()
+    {
+        _gameboard = GameObject.Find("GameBoard").GetComponent<GameBoardController>();
+        Debug.Log(_gameboard);    
     }
 }

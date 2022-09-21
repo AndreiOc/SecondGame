@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 512954323711941871}
   - component: {fileID: 772234853789031812}
   m_Layer: 0
-  m_Name: DIceForBattle
-  m_TagString: Untagged
+  m_Name: DiceForBattle
+  m_TagString: Dice
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

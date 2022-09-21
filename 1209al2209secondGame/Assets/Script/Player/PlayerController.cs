@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : CharacterController
+public class PlayerController : CharacterController,Searchable
 {
     // Start is called before the first frame update
     private Rigidbody2D rb2D;
@@ -28,10 +28,11 @@ public class PlayerController : CharacterController
     Vector2 desiredPosition;
     void Start()
     {
-        diceForBattle =GameObject.Find("DIceForBattle").GetComponent<DiceForBattle>();
+        diceForBattle =GameObject.Find("DiceForBattle").GetComponent<DiceForBattle>();
         _gamemanager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _uIManager = GameObject.Find("UIManager").GetComponent<UIManager>();
-        gameBoardController = GameObject.FindGameObjectWithTag("Board").GetComponent<GameBoardController>();
+        gameBoardController = GameObject.Find("GameBoard").GetComponent<GameBoardController>();
+        
         diceController = GameObject.FindGameObjectWithTag("Dice").GetComponent<DiceController>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         //inizializzo i vari valori di attacco difesa e tutto 
@@ -65,6 +66,8 @@ public class PlayerController : CharacterController
                     int x = hit.collider.GetComponent<Tile>().X;
                     int y = hit.collider.GetComponent<Tile>().Y;
                     desiredPosition = new Vector2(x,y  + 0.8f);
+                    Debug.Log(desiredPosition);
+
                     if(Input.GetMouseButtonDown(0))
                     {
                         int currentX = (int)desiredPosition.x;
@@ -76,7 +79,7 @@ public class PlayerController : CharacterController
                          
                         TakeBuffOrDebuff(hit.collider.gameObject);
                         gameBoardController.GetComponent<GameBoardController>().RemoveFromList(currentX,currentY);
-                        transform.position =desiredPosition;
+                        transform.position = desiredPosition;
 
                         canMove = false;
                         _gamemanager.UpdateState(GameState.DiceThrownState);
@@ -96,7 +99,9 @@ public class PlayerController : CharacterController
 
         if(Input.GetKeyDown("space"))
         {
-            Debug.Log("CAMBIO CAMPO PER TEST");
+            _gamemanager.ChangeStage();
+            _gamemanager.UpdateState(GameState.DiceThrownState);
+
         }
     }
     /// <summary>
@@ -123,5 +128,9 @@ public class PlayerController : CharacterController
 
     }
 
-
+    public void SearchObject()
+    {
+        gameBoardController = GameObject.Find("GameBoard").GetComponent<GameBoardController>();
+        Debug.Log(gameBoardController);
+    }
 }

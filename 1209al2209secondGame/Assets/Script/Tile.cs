@@ -7,13 +7,13 @@ using System;
 public abstract class Tile: MonoBehaviour
 {
 
-    private int x;
+    [SerializeField]private int x;
     public int X
     {
         set{x = value;}
         get{return x;}
     }
-    private int y;
+    [SerializeField] private int y;
     public int Y
     {
         set{y = value;}
@@ -45,13 +45,14 @@ public abstract class Tile: MonoBehaviour
     private void Start()
     {
         _gamemanager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        _gameboardController = GameObject.FindGameObjectWithTag("Board").GetComponent<GameBoardController>();
+        _gameboardController = GameObject.Find("GameBoard").GetComponent<GameBoardController>();
+        _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+
         bc2D = GetComponent<BoxCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         diceSprite = spriteRenderer.sprite;
 
         transform.tag = "None";
-        _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         
     }
     /// <summary>

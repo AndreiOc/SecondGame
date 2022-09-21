@@ -10,39 +10,35 @@ public class GameBoardController : MonoBehaviour
     /// </summary>
     //! Componenti per la generazioni delle tiles
     public List<Tile>tiles;
+    public List<Tile>tiles2;
     private int TILE_COUNT_X = 10;
     private int TILE_COUNT_Y = 10;
     private int avaibleTiles;
+    public int changeStage = 0;
     [SerializeField] Tile [] diceTile;
-    public GameObject player;
     [SerializeField] EnemyController enemy;
     [SerializeField]public int[,] _valDiceArray = new int[10,10];
+    GameManager _gamemanager;
     private void Awake()
     {
         GenerateAllTiles(TILE_COUNT_X,TILE_COUNT_Y);    
-        Vector2 positionPlayer;
-        foreach (var item in tiles)
-        {
-            if(item.ValDice == 1)
-            {
-                positionPlayer = new Vector2(item.X,item.Y + 0.8f);
-                Instantiate(player,positionPlayer,Quaternion.identity);
-                break;
-            }
-        }
     }
+
+
     private void GenerateAllTiles(int tileCountX, int tileCountY)
     {
+        Debug.Log(transform.position);
         tiles = new List<Tile>();
         for (int x = 0; x < TILE_COUNT_X; x++)
             for (int y = 0; y < TILE_COUNT_Y; y++)
-                tiles.Add(GenerateSingleTile(x, y));           
+                tiles.Add(GenerateSingleTile(x + changeStage, y));         
+      
     }
 
 
     public Tile GenerateSingleTile(int x, int y)
     {
-
+        
         Tile tileObject;
         int valTile = Random.Range(0,100);
         if(valTile <= 25)
@@ -77,8 +73,8 @@ public class GameBoardController : MonoBehaviour
             tileObject.ValDice = 6;
         }
 
-        tileObject.X = x;
-        tileObject.Y = y;
+        tileObject.X = (int)transform.position.x + x ;
+        tileObject.Y = (int)transform.position.y + y;
         _valDiceArray[x,y] = tileObject.ValDice;
         tileObject.transform.parent = transform;
         tileObject.transform.position = new Vector2(x, y);
@@ -128,7 +124,6 @@ public class GameBoardController : MonoBehaviour
         _valDiceArray[x,y] = 0 ;
         tiles.Find(val => (val.X == x && val.Y == y)).ConsumedTile();
         //tiles.Remove(tiles.Find(val => (val.X == x && val.Y == y)));
-        Debug.Log("list count : " + tiles.Count);   
   
     }
     /// <summary>
