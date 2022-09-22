@@ -21,6 +21,11 @@ public class PlayerController : CharacterController,Searchable
         get{return canMove;}
     }
 
+    /// <summary>
+    /// Se combatte o cambia posizione incrementa a 50 click spawn il nemico
+    /// </summary>
+    private int clicks = 0;
+    private bool firstBoss = true;
     private bool canMove;
     private Camera currentCamera;
     GameBoardController gameBoardController;
@@ -66,7 +71,6 @@ public class PlayerController : CharacterController,Searchable
                     int x = hit.collider.GetComponent<Tile>().X;
                     int y = hit.collider.GetComponent<Tile>().Y;
                     desiredPosition = new Vector2(x,y  + 0.8f);
-                    Debug.Log(desiredPosition);
 
                     if(Input.GetMouseButtonDown(0))
                     {
@@ -80,7 +84,7 @@ public class PlayerController : CharacterController,Searchable
                         TakeBuffOrDebuff(hit.collider.gameObject);
                         gameBoardController.GetComponent<GameBoardController>().RemoveFromList(currentX,currentY);
                         transform.position = desiredPosition;
-
+                        clicks++;
                         canMove = false;
                         _gamemanager.UpdateState(GameState.DiceThrownState);
                     }
@@ -91,16 +95,26 @@ public class PlayerController : CharacterController,Searchable
                     {
                         diceForBattle.GetComponent<DiceForBattle>().Duel(hit.collider);
                         canMove = false;
+                        clicks++;
+
                         _gamemanager.UpdateState(GameState.DiceThrownState);
                     }
                 }
-            }  
+
+
+            } 
+            if(clicks == 5 && firstBoss)
+            {
+                gameBoardController.GetComponent<GameBoardController>().SpawnBoss();    
+                firstBoss = false;
+            } 
         }
 
-        if(Input.GetKeyDown("space"))
+        if(false)
         {
             _gamemanager.ChangeStage();
             _gamemanager.UpdateState(GameState.DiceThrownState);
+            _gamemanager.UpdateGameStage(GameStage.SecondStage);
 
         }
     }
@@ -131,6 +145,6 @@ public class PlayerController : CharacterController,Searchable
     public void SearchObject()
     {
         gameBoardController = GameObject.Find("GameBoard").GetComponent<GameBoardController>();
-        Debug.Log(gameBoardController);
+        Debug.Log("Player :" + gameBoardController);
     }
 }

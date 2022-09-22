@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
 
 
     [SerializeField] private GameObject _gameboard;
+    public GameStage stage = GameStage.FirstStage;
     GameObject firstStage;
     GameObject secondStage;
     GameObject thirdStage;
@@ -49,6 +50,7 @@ public class GameManager : MonoBehaviour
 
         diceForBattle = Instantiate(_diceForBattle,Vector3.zero,Quaternion.identity);
         diceForBattle.name = "DiceForBattle";
+        stage = GameStage.FirstStage;
     }
         
     private void Start()
@@ -58,8 +60,7 @@ public class GameManager : MonoBehaviour
     }
     public void UpdateState(GameState newState)
     {
-        state = newState;
-        switch (state)
+        switch (newState)
         {
             case GameState.DiceThrownState:
             _diceController.CanIThrown = true;
@@ -70,6 +71,49 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void UpdateGameStage(GameStage newGameStage)
+    {
+        switch (newGameStage)
+        {
+            case GameStage.FirstStage:
+                Debug.Log("STAGE WHERE WE START");
+            break;
+            /// <summary>
+            /// Aggiornamento al secondo stage di gioco
+            /// </summary>
+            /// <returns></returns>
+            case GameStage.SecondStage:
+
+                DestroyImmediate(firstStage);
+                secondStage = Instantiate(_gameboard, new Vector3(0,0,0),Quaternion.identity);
+                secondStage.transform.position = new Vector3(30,0,0);
+                foreach (var item in secondStage.GetComponent<GameBoardController>().tiles)
+                {
+                    item.X +=30;
+                }
+
+                secondStage.name = "GameBoard";
+                
+                Tile positionPlayer = secondStage.GetComponent<GameBoardController>().tiles.Find(val => val.ValDice == 1);
+                player.transform.position = new Vector2(positionPlayer.X,positionPlayer.Y + 0.8f);
+                player.GetComponent<PlayerController>().SearchObject();
+                diceGame.GetComponent<DiceController>().SearchObject();
+                diceForBattle.GetComponent<DiceForBattle>().SearchObject();
+
+                cameraObject.GetComponent<Animator>().SetTrigger("secondStage");
+                diceGame.transform.position = new Vector3(46f,9f,0);
+
+            break;
+            case GameStage.ThirdStage:
+
+
+            break;
+            case GameStage.BossStage:
+            _playerController.CanMove = true;
+            break;        
+        }
+    }
+
     public void EnemyIsSpawn()
     {
         Debug.Log("Todo");
@@ -77,24 +121,7 @@ public class GameManager : MonoBehaviour
 
     public void ChangeStage()
     {
-        DestroyImmediate(firstStage);
-        secondStage = Instantiate(_gameboard, new Vector3(0,0,0),Quaternion.identity);
-        secondStage.transform.position = new Vector3(30,0,0);
-        foreach (var item in secondStage.GetComponent<GameBoardController>().tiles)
-        {
-            item.X +=30;
-        }
 
-        secondStage.name = "GameBoard";
-        
-        Tile positionPlayer = secondStage.GetComponent<GameBoardController>().tiles.Find(val => val.ValDice == 1);
-        player.transform.position = new Vector2(positionPlayer.X,positionPlayer.Y + 0.8f);
-        player.GetComponent<PlayerController>().SearchObject();
-        diceGame.GetComponent<DiceController>().SearchObject();
-        diceForBattle.GetComponent<DiceForBattle>().SearchObject();
-
-        cameraObject.transform.position = new Vector3(36.5f,4.5f,-10);
-        diceGame.transform.position = new Vector3(46f,9f,0);
     }
 }
 public enum GameState
@@ -102,4 +129,12 @@ public enum GameState
     DiceThrownState,
     PlayerTurn,
     EnemyTurn
+}
+
+public enum GameStage
+{
+    FirstStage,
+    SecondStage,
+    ThirdStage,
+    BossStage
 }

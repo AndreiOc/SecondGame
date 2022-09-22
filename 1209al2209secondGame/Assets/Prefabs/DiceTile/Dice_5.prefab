@@ -98,6 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c18fc00931a3d844f8903aa4b78b0822, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  x: 0
+  y: 0
   isConsumed: 0
   enemy: {fileID: 4267278513202587952, guid: fff49789429617a4d997df42b3292aef, type: 3}
   highLightSprite: {fileID: -1921676414, guid: 7e63586907eece64096d8b805641934a, type: 3}

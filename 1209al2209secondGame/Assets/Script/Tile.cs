@@ -77,7 +77,10 @@ public abstract class Tile: MonoBehaviour
             spriteRenderer.sprite = consumedSprite;
         else
             spriteRenderer.sprite = enemyTileSprite;
+            
         isConsumed = true; 
+        transform.tag = "Consumed"; // fatto e corretto il bug
+
     }
     public abstract void GetBuffOrDebuff();
 

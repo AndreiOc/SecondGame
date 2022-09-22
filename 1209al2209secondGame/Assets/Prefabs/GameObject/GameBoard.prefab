@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tiles: []
+  changeStage: 0
   diceTile:
   - {fileID: 575860732599787113, guid: f0129418b44a7bb4dbbf29644ca90f5a, type: 3}
   - {fileID: 7621501221588495781, guid: 993d711e84e8e4d43ad821a335f67735, type: 3}
@@ -52,5 +53,7 @@ MonoBehaviour:
   - {fileID: 5817170455832791199, guid: eea4023570e17c14595842566de77334, type: 3}
   - {fileID: 4346239655282128253, guid: 6a8ad42dabe94ce4f8a76933bf2afdcf, type: 3}
   - {fileID: 8747179889821406631, guid: ef0ceaa0240bc2a4cb7765d935975f97, type: 3}
-  player: {fileID: 2518463416767146573, guid: 47843908ab62ca3489daa45488a74f0c, type: 3}
   enemy: {fileID: 4267278513202587952, guid: fff49789429617a4d997df42b3292aef, type: 3}
+  bosses:
+  - {fileID: 3363268605639200682, guid: 304989dbbe905ac4cbb57ed3763fe189, type: 3}
+  - {fileID: 2783141493743244000, guid: 7c74564d91d79ce4997bee4fe48be0b9, type: 3}

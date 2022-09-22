@@ -10,13 +10,13 @@ public class GameBoardController : MonoBehaviour
     /// </summary>
     //! Componenti per la generazioni delle tiles
     public List<Tile>tiles;
-    public List<Tile>tiles2;
     private int TILE_COUNT_X = 10;
     private int TILE_COUNT_Y = 10;
     private int avaibleTiles;
     public int changeStage = 0;
     [SerializeField] Tile [] diceTile;
-    [SerializeField] EnemyController enemy;
+    [SerializeField] private EnemyController enemy;
+    [SerializeField] private EnemyController [] bosses;
     [SerializeField]public int[,] _valDiceArray = new int[10,10];
     GameManager _gamemanager;
     private void Awake()
@@ -24,7 +24,9 @@ public class GameBoardController : MonoBehaviour
         GenerateAllTiles(TILE_COUNT_X,TILE_COUNT_Y);    
     }
 
-
+    private void Start() {
+        _gamemanager = GameObject.Find("GameManager").GetComponent<GameManager>();
+    }
     private void GenerateAllTiles(int tileCountX, int tileCountY)
     {
         Debug.Log(transform.position);
@@ -121,11 +123,32 @@ public class GameBoardController : MonoBehaviour
     /// <param name="y"></param>
     public void RemoveFromList(int x, int y)
     {
-        _valDiceArray[x,y] = 0 ;
         tiles.Find(val => (val.X == x && val.Y == y)).ConsumedTile();
         //tiles.Remove(tiles.Find(val => (val.X == x && val.Y == y)));
   
     }
+
+    internal void SpawnBoss()
+    {
+        Tile tilex = tiles.Find(val => val.ValDice == 6);
+        switch(_gamemanager.stage)
+        {
+            case GameStage.FirstStage:
+                Instantiate(bosses[0],new Vector2(tilex.X,tilex.Y + 0.8f),Quaternion.identity);
+
+            break;
+            case GameStage.SecondStage:
+                Instantiate(bosses[1],new Vector2(tilex.X,tilex.Y + 0.8f),Quaternion.identity);
+        
+            break;
+            case GameStage.ThirdStage:
+                Instantiate(bosses[2],new Vector2(tilex.X,tilex.Y + 0.8f),Quaternion.identity);
+            break;
+        }
+        tiles.Find(val => val.ValDice == 6).ConsumedTile(true);
+
+    }
+
     /// <summary>
     /// Spawn un nemico casualmente sulla plancia di gioco
     /// </summary>

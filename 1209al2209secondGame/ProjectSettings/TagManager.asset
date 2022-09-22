@@ -10,6 +10,7 @@ TagManager:
   - Dice
   - Enemy
   - EnemyTile
+  - Consumed
   layers:
   - Default
   - TransparentFX

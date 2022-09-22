@@ -113,6 +113,7 @@ public class DiceForBattle : MonoBehaviour, Searchable
                 {
                     enemy.Health -= (player.Strength - enemy.Strength);
                     spriteRenderer.sprite = WinOrLosediceFaces[1];
+                    enemy.AnimationReaction(AnimationState.isAttacking);
 
                 }
                 break;

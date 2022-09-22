@@ -9,7 +9,6 @@ public class EnemyController : MonoBehaviour
     protected GameManager _gamemanager;
 
     int old;
-    Color baseColor = Color.white;
     public int Strength{
         set
         {
